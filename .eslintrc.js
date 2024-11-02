@@ -11,6 +11,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
+  plugins: ["@stylistic"],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
@@ -22,5 +23,11 @@ module.exports = {
     ],
     "@typescript-eslint/no-unused-vars": "off",
     "vue/no-unused-components": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@stylistic/padding-line-between-statements": [
+      "warn",
+      { blankLine: "always", prev: "*", next: "return" },
+    ],
   },
 };

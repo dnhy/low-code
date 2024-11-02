@@ -1,9 +1,12 @@
-import { computed, defineComponent, inject } from "vue";
+import { computed, defineComponent, inject, PropType } from "vue";
+import type { EditorConfig } from "@/utils/type";
+import type { Block } from "@/types";
 
 export default defineComponent({
   props: {
     block: {
-      type: Object,
+      type: Object as PropType<Block>,
+      required: true,
     },
   },
   setup(props) {
@@ -14,12 +17,14 @@ export default defineComponent({
       key: props.block.key,
     }));
 
-    const config = inject("config");
+    const config = inject("config") as EditorConfig;
     console.log("config :", config);
+
     return () => {
       const component = config.componentMap[props.block.key];
+
       return (
-        <div className="editor-block" style={blockStyles.value}>
+        <div class="editor-block" style={blockStyles.value}>
           <component />
         </div>
       );

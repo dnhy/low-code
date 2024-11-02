@@ -1,19 +1,21 @@
 import { ElButton, ElInput } from "element-plus";
+import type { ComponentList, ComponentMap, EditorConfig } from "./type";
 
-function createEditorConfig() {
-  const componentList = [];
-  const componentMap = [];
+function createEditorConfig(): EditorConfig {
+  const componentList: ComponentList = [];
+  const componentMap: ComponentMap = {};
+
   return {
     componentList,
     componentMap,
-    register: (component) => {
+    register(component) {
       componentList.push(component);
       componentMap[component.key] = component;
     },
   };
 }
 
-export let registerConfig = createEditorConfig();
+export const registerConfig = createEditorConfig();
 
 registerConfig.register({
   label: "文本",

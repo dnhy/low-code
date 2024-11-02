@@ -4,12 +4,14 @@
   </div>
 </template>
 
-<script setup>
-import { ref, defineModel, provide } from "vue";
+<script setup lang="ts">
+import { ref, provide } from "vue";
 import data from "./data.json";
-import Editor from "@/packages/editor.jsx";
+import Editor from "@/packages/editor";
 import { registerConfig as config } from "@/utils/editor-config";
-const state = ref(data);
+import type { EditorData } from "./types";
+
+const state = ref<EditorData>(data);
 
 provide("config", Object.freeze(config));
 </script>
