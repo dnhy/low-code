@@ -14,6 +14,9 @@ importers:
       element-plus:
         specifier: ^2.8.6
         version: 2.8.6(vue@3.5.12(typescript@5.6.3))
+      loadash:
+        specifier: ^1.0.0
+        version: 1.0.0
       vue:
         specifier: ^3.2.13
         version: 3.5.12(typescript@5.6.3)
@@ -3424,6 +3427,10 @@ packages:
     peerDependenciesMeta:
       enquirer:
         optional: true
+
+  loadash@1.0.0:
+    resolution: {integrity: sha512-xlX5HBsXB3KG0FJbJJG/3kYWCfsCyCSus3T+uHVu6QL6YxAdggmm3QeyLgn54N2yi5/UE6xxL5ZWJAAiHzHYEg==}
+    deprecated: Package is unsupport. Please use the lodash package instead.
 
   loader-runner@4.3.0:
     resolution: {integrity: sha512-3R/1M+yS3j5ou80Me59j7F9IMs4PXs3VqRrm0TU3AbKPxlmpoY1TNscJV/oGJXo8qCatFGTfDbY6W6ipGOYXfg==}
@@ -9113,6 +9120,8 @@ snapshots:
       wrap-ansi: 7.0.0
     optionalDependencies:
       enquirer: 2.4.1
+
+  loadash@1.0.0: {}
 
   loader-runner@4.3.0: {}
 

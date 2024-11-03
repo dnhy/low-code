@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide } from "vue";
+import { ref, provide, onUpdated } from "vue";
 import data from "./data.json";
 import Editor from "@/packages/editor";
 import { registerConfig as config } from "@/utils/editor-config";
@@ -17,6 +17,10 @@ provide("config", Object.freeze(config));
 
 console.log("NODE_ENV", process.env.NODE_ENV);
 console.log("process.env", process.env);
+
+onUpdated(() => {
+  console.log("parent updated");
+});
 </script>
 
 <style>

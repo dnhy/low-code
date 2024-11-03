@@ -5,25 +5,29 @@ import {
   inject,
   PropType,
   onMounted,
+  onUpdated,
 } from "vue";
 import "./css/editor.scss";
 import EditorBlock from "./editor-block";
 import type { EditorConfig, ELComponent } from "@/utils/type";
 import type { EditorData } from "@/types";
+import _ from "lodash";
 
 export default defineComponent({
   props: {
     modelValue: { type: Object as PropType<EditorData>, required: true },
   },
-  setup(props, context) {
-    const data = computed({
+  emits: ["update:modelValue"],
+  setup(props, ctx) {
+    const data = computed<EditorData>({
       get() {
         return props.modelValue;
       },
-      set() {
-        data;
+      set(val) {
+        ctx.emit("update:modelValue", _.cloneDeep(val));
       },
     });
+
     const containerStyles = computed(() => ({
       width: data.value.container.width + "px",
       height: data.value.container.height + "px",
@@ -31,24 +35,45 @@ export default defineComponent({
     const config = inject("config") as EditorConfig;
 
     const contanerRef = ref<HTMLElement>();
+    let currentDrag: ELComponent | null;
 
     function dragEnter(e: DragEvent) {
       e.dataTransfer!.dropEffect = "move";
     }
     function dragOver(e: DragEvent) {
-      e.stopPropagation();
+      e.preventDefault();
     }
     function dragLeave(e: DragEvent) {
       e.dataTransfer!.dropEffect = "none";
     }
 
-    function drop(e: DragEvent) {}
+    function drop(e: DragEvent) {
+      const block = {
+        top: e.offsetY,
+        left: e.offsetX,
+        zIdnex: 1,
+        key: currentDrag!.key,
+        alignCenter: true,
+      };
+
+      data.value = {
+        ...data.value,
+        blocks: [...data.value.blocks, block],
+      };
+
+      currentDrag = null;
+    }
+
+    onUpdated(() => {
+      console.log("child1 updated");
+    });
 
     function dragStart(e: Event, component: ELComponent) {
       contanerRef.value?.addEventListener("dragenter", dragEnter);
       contanerRef.value?.addEventListener("dragover", dragOver);
       contanerRef.value?.addEventListener("dragleave", dragLeave);
       contanerRef.value?.addEventListener("drop", drop);
+      currentDrag = component;
     }
 
     return () => (

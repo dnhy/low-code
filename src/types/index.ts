@@ -8,6 +8,7 @@ export interface Block {
   left: number;
   zIdnex: number;
   key: string;
+  alignCenter?: boolean;
 }
 
 export interface EditorData {
