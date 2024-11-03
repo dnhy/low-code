@@ -22,9 +22,6 @@ console.log("process.env", process.env);
 <style>
 .app {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
+  inset: 20px;
 }
 </style>

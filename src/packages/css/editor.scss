@@ -27,6 +27,7 @@
       min-height: 100px;
       position: relative;
       background-color: #fff;
+
       > span {
         position: absolute;
         top: 0;
@@ -39,10 +40,7 @@
       &::after {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         background-color: #ccc;
         opacity: 0.2;
       }
@@ -66,9 +64,11 @@
     height: 100%;
     padding: 80px 270px 0;
     box-sizing: border-box;
+
     &-canvas {
       height: 100%;
       overflow: scroll;
+
       &__content {
         width: 850px;
         height: 850px;
@@ -78,8 +78,8 @@
       }
     }
   }
-}
 
-.editor-block {
-  position: absolute;
+  .editor-block {
+    position: absolute;
+  }
 }
