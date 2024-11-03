@@ -14,6 +14,9 @@ import type { EditorData } from "./types";
 const state = ref<EditorData>(data);
 
 provide("config", Object.freeze(config));
+
+console.log("NODE_ENV", process.env.NODE_ENV);
+console.log("process.env", process.env);
 </script>
 
 <style>

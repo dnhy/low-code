@@ -4,8 +4,16 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve-test": "vue-cli-service serve --mode test",
+    "serve-pro": "vue-cli-service serve --mode production",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build:pre": "vue-cli-service build --mode test",
+    "build:pro": "vue-cli-service build  --mode production",
+    "prepare": "husky install",
+    "lint:create": "eslint --init",
+    "lint": "vue-cli-service lint",
+    "prettier-format": "prettier --config .prettierrc.json \"src/**/*.{vue,js,ts}\" --write",
+    "auto-lint-format": "npm run lint && npm run prettier-format"
   },
   "dependencies": {
     "core-js": "^3.8.3",
@@ -15,6 +23,8 @@
     "vuex": "^4.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@stylistic/eslint-plugin": "^2.10.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
@@ -27,16 +37,31 @@
     "@vue/eslint-config-standard": "^6.1.0",
     "@vue/eslint-config-typescript": "^9.1.0",
     "eslint": "^8.57.1",
-    "eslint-plugin-import": "^2.25.3",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-vue": "^8.0.3",
+    "eslint-plugin-vue": "^8.7.1",
+    "husky": "^8.0.0",
     "lint-staged": "^11.1.2",
+    "prettier": "^3.3.3",
     "sass": "^1.80.5",
     "sass-loader": "^16.0.3",
-    "typescript": "~4.5.5"
+    "typescript": "~5.6.3"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "npm run lint",
+      "npm run prettier-format"
+    ]
+  },
+  "json-comments": {
+    "tips": "请安装JSONComments插件为JSON文件提供注释功能, 详见: https://github.com/zhangfisher/json_comments_extension",
+    "package.json": {
+      "scripts.auto-lint-format": "用于开发时自动eslint检测修复和格式化整个项目的代码，&是并行执行，&&是并继执行",
+      "lint-staged": "用于git提交前，自动eslint检测和格式化暂存区代码"
+    }
   }
 }
