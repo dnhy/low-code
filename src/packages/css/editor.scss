@@ -75,11 +75,22 @@
         margin: 20px auto;
         background-color: yellow;
         position: relative;
+        overflow: hidden;
       }
     }
   }
 
   .editor-block {
     position: absolute;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
   }
+}
+
+.block-focus {
+  border: 3px dotted red;
 }

@@ -4,14 +4,15 @@ import {
   defineComponent,
   inject,
   PropType,
-  onMounted,
   onUpdated,
 } from "vue";
+import _ from "lodash";
 import "./css/editor.scss";
 import EditorBlock from "./editor-block";
-import type { EditorConfig, ELComponent } from "@/utils/type";
+import type { EditorConfig } from "@/utils/type";
 import type { EditorData } from "@/types";
-import _ from "lodash";
+import { useMenuDragger } from "@/hooks/useMenuDragger";
+import { useFocus } from "@/hooks/useFocus";
 
 export default defineComponent({
   props: {
@@ -32,49 +33,15 @@ export default defineComponent({
       width: data.value.container.width + "px",
       height: data.value.container.height + "px",
     }));
+
+    const containerRef = ref<HTMLElement>();
     const config = inject("config") as EditorConfig;
 
-    const contanerRef = ref<HTMLElement>();
-    let currentDrag: ELComponent | null;
+    // 拖拽物料列表组件
+    const { dragStart, dragEnd } = useMenuDragger(containerRef, data);
 
-    function dragEnter(e: DragEvent) {
-      e.dataTransfer!.dropEffect = "move";
-    }
-    function dragOver(e: DragEvent) {
-      e.preventDefault();
-    }
-    function dragLeave(e: DragEvent) {
-      e.dataTransfer!.dropEffect = "none";
-    }
-
-    function drop(e: DragEvent) {
-      const block = {
-        top: e.offsetY,
-        left: e.offsetX,
-        zIdnex: 1,
-        key: currentDrag!.key,
-        alignCenter: true,
-      };
-
-      data.value = {
-        ...data.value,
-        blocks: [...data.value.blocks, block],
-      };
-
-      currentDrag = null;
-    }
-
-    onUpdated(() => {
-      console.log("child1 updated");
-    });
-
-    function dragStart(e: Event, component: ELComponent) {
-      contanerRef.value?.addEventListener("dragenter", dragEnter);
-      contanerRef.value?.addEventListener("dragover", dragOver);
-      contanerRef.value?.addEventListener("dragleave", dragLeave);
-      contanerRef.value?.addEventListener("drop", drop);
-      currentDrag = component;
-    }
+    // 选择内容区组件
+    const { handleMouseDown, containerMousedown, foucsData } = useFocus(data);
 
     return () => (
       <div class="editor">
@@ -84,6 +51,7 @@ export default defineComponent({
               class="editor-left-item"
               draggable
               onDragstart={(e) => dragStart(e, component)}
+              onDragend={(e) => dragEnd(e)}
             >
               <span>{component.label}</span>
               <div>{component.preview()}</div>
@@ -102,10 +70,15 @@ export default defineComponent({
             <div
               class="editor-container-canvas__content"
               style={containerStyles.value}
-              ref={contanerRef}
+              ref={containerRef}
+              onMousedown={(e) => containerMousedown(e)}
             >
               {data.value.blocks.map((block) => (
-                <EditorBlock block={block}></EditorBlock>
+                <EditorBlock
+                  block={block}
+                  class={block.focus ? "block-focus" : "tctest"}
+                  onMousedown={(e: MouseEvent) => handleMouseDown(e, block)}
+                ></EditorBlock>
               ))}
             </div>
           </div>

@@ -9,6 +9,7 @@ export interface Block {
   zIdnex: number;
   key: string;
   alignCenter?: boolean;
+  focus?: boolean;
 }
 
 export interface EditorData {

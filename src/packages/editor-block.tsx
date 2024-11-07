@@ -17,8 +17,14 @@ export default defineComponent({
       type: Object as PropType<Block>,
       required: true,
     },
+    onMousedown: {
+      type: Function as PropType<(e: MouseEvent) => void>,
+      required: true,
+    },
   },
-  setup(props) {
+  // emits: ["mousedown"],
+  setup(props, rtx) {
+    console.log("rtx :", rtx.attrs);
     const blockStyles = computed(() => ({
       top: props.block.top + "px",
       left: props.block.left + "px",
@@ -48,8 +54,16 @@ export default defineComponent({
       const component = config.componentMap[props.block.key];
 
       return (
-        <div class="editor-block" style={blockStyles.value} ref={editorBlock}>
-          <component />
+        <div>
+          <div
+            class="editor-block"
+            style={blockStyles.value}
+            ref={editorBlock}
+            // onMousedown={(e) => rtx.emit("mousedown", e)}
+            onMousedown={props.onMousedown}
+          >
+            <component />
+          </div>
         </div>
       );
     };
