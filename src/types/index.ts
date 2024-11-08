@@ -16,3 +16,8 @@ export interface EditorData {
   container: Container;
   blocks: Block[];
 }
+
+export interface IFoucsData {
+  foucs: Block[];
+  unFoucs: Block[];
+}

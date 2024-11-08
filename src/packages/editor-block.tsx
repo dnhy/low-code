@@ -54,16 +54,14 @@ export default defineComponent({
       const component = config.componentMap[props.block.key];
 
       return (
-        <div>
-          <div
-            class="editor-block"
-            style={blockStyles.value}
-            ref={editorBlock}
-            // onMousedown={(e) => rtx.emit("mousedown", e)}
-            onMousedown={props.onMousedown}
-          >
-            <component />
-          </div>
+        <div
+          class="editor-block"
+          style={blockStyles.value}
+          ref={editorBlock}
+          // onMousedown={(e) => rtx.emit("mousedown", e)}
+          onMousedown={props.onMousedown}
+        >
+          <component />
         </div>
       );
     };

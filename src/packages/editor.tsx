@@ -5,14 +5,16 @@ import {
   inject,
   PropType,
   onUpdated,
+  Ref,
 } from "vue";
 import _ from "lodash";
 import "./css/editor.scss";
 import EditorBlock from "./editor-block";
 import type { EditorConfig } from "@/utils/type";
-import type { EditorData } from "@/types";
+import type { Block, EditorData, IFoucsData } from "@/types";
 import { useMenuDragger } from "@/hooks/useMenuDragger";
 import { useFocus } from "@/hooks/useFocus";
+import { useMove } from "@/hooks/useMove";
 
 export default defineComponent({
   props: {
@@ -41,7 +43,15 @@ export default defineComponent({
     const { dragStart, dragEnd } = useMenuDragger(containerRef, data);
 
     // 选择内容区组件
-    const { handleMouseDown, containerMousedown, foucsData } = useFocus(data);
+    const { handleMouseDown, containerMousedown, foucsData } = useFocus(
+      data,
+      (e, preBlocks) => {
+        mouseDown(e, preBlocks);
+      },
+    );
+
+    // 拖动内容区组件
+    const { mouseDown } = useMove(data, foucsData);
 
     return () => (
       <div class="editor">
@@ -76,7 +86,7 @@ export default defineComponent({
               {data.value.blocks.map((block) => (
                 <EditorBlock
                   block={block}
-                  class={block.focus ? "block-focus" : "tctest"}
+                  class={block.focus ? "block-focus" : ""}
                   onMousedown={(e: MouseEvent) => handleMouseDown(e, block)}
                 ></EditorBlock>
               ))}
